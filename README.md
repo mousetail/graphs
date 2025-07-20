@@ -2,6 +2,9 @@
 
 This project is my attempt at implementing the LR Graph Planarity algorithm. It's meant to be included in a challenge in [Byte Heist](https://byte-heist.com).
 
+Test cases taken from the [Boost Graph Library](https://github.com/boostorg/graph/tree/develop),
+licenced under the boost licence.
+
 ## Explanation of the Left-Right Graph Planarity Algorithm
 
 I could not find a reasonable explanation online so here it is. Most of this is taken from [this excellent explanation by Ulrik Brandes](https://www.cs.ubc.ca/~will/536E/papers/LRPlanarityBrandes.pdf). However, I've greatly shortened and simplified it so it's more understandable to non-mathamaticaians, as well as left out proofs and the contruction of a planar embedding.
@@ -132,3 +135,9 @@ end
 
 Now you can trivially assing an arbitrary direction to a back edge, then apply the opposite or the same direction to all back edges depending on the _T-same_ or _T-opposite_ rules. If it's possible
 to do so, the graph is planar, if not, the graph is not.
+
+## How to run the code
+
+The library part, `graphs.ts` should run in any runtime, but the `test_suite.ts` should be run with Deno. To test the suite run `deno --allow-read="./test_cases" src/test_suite.ts`.
+
+Currently it takes about a second to run the entire test suite.

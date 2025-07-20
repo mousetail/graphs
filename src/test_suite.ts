@@ -16,7 +16,7 @@ function parse_dmacs(t: string): number[][] {
     .map((_) => []);
 
   lines.slice(1).forEach((k) => {
-    const [m, source, dest] = k.split(/ /g).map((i) => Number.parseInt(i));
+    const [_m, source, dest] = k.split(/ /g).map((i) => Number.parseInt(i));
 
     out[source].push(dest);
     out[dest].push(source);
@@ -36,16 +36,12 @@ async function runTestSuite() {
   let lowest_number_of_nodes = Infinity;
   let smallest_graph = null;
 
-  for await (let file of Deno.readDir(
-    "../boost_graph/test/planar_input_graphs"
-  )) {
+  for await (const file of Deno.readDir("./test_cases")) {
     if (!file.name.endsWith(".dimacs")) {
       continue;
     }
 
-    const text = await Deno.readTextFile(
-      "../boost_graph/test/planar_input_graphs/" + file.name
-    );
+    const text = await Deno.readTextFile("./test_cases/" + file.name);
 
     const graph = parse_dmacs(text);
     const is_graph_planar = isPlanar(graph);
@@ -72,7 +68,7 @@ async function runTestSuite() {
   console.log("Smallest incorrect graph was", smallest_graph);
 }
 
-async function runSingleTest(filename: string) {
+async function _runSingleTest(filename: string) {
   const text = await Deno.readTextFile(
     "../boost_graph/test/planar_input_graphs/" + filename
   );

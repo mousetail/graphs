@@ -8,7 +8,7 @@ type TreeNode = {
 
 function checkGraph(graph: number[][]) {
   graph.forEach((node, index) => {
-    for (let edge of node) {
+    for (const edge of node) {
       if (!graph[edge].some((k) => k == index)) {
         throw new Error(
           `invalid graph, edge ${index}->${edge} exists, but ${edge}->${index} does not`
@@ -62,7 +62,7 @@ function depthFirstSearch(g: Graph): Map<number, TreeNode> {
     }
 
     if (treeEdges.length == 0) {
-      let ancestor = ancestors.pop();
+      const ancestor = ancestors.pop();
       if (ancestor === undefined) {
         break;
       } else {
@@ -257,7 +257,7 @@ function groupBackEdges(
   return out;
 }
 
-function toMermaid(
+function _toMermaid(
   graph: Map<number, TreeNode>,
   backEdges?: Map<number, Map<number, number>>
 ): string {
@@ -318,7 +318,7 @@ function resolveBackEdges(
     });
   }
 
-  edges.forEach((value, key) => {
+  edges.forEach((_value, key) => {
     if (leftEdges.has(key) || rightEdges.has(key)) {
       return;
     }
@@ -344,39 +344,3 @@ export function isPlanar(graph: Graph) {
 
   return resolveBackEdges(backEdges);
 }
-
-const graph = [
-  [1], // 0
-  [0, 2, 4], // 1
-  [1, 3, 5], // 2
-  [2, 4, 7], // 3
-  [1, 3, 5], // 4
-  [4, 2, 6], // 5
-  [5, 7], // 6
-  [6, 3, 8], // 7
-  [7], // 8
-];
-
-const graph2 = [
-  [1, 2, 3, 4],
-  [0, 2, 3, 4],
-  [0, 1, 3, 4],
-  [0, 1, 2, 4],
-  [0, 1, 2, 3],
-];
-
-const graph3 = [
-  [1],
-  [0, 2, 3, 4, 5, 6, 7],
-  [1, 8, 3, 7],
-  [1, 8, 4, 2],
-  [1, 8, 5, 3],
-  [1, 8, 6, 4],
-  [1, 8, 7, 5],
-  [1, 8, 2, 6],
-  [2, 3, 4, 5, 6, 7],
-];
-
-// console.log(is_planar(graph));
-//console.log(isPlanar(graph2));
-// console.log(is_planar(graph3));
