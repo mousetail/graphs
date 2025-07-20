@@ -3,7 +3,7 @@
 This project is my attempt at implementing the LR Graph Planarity algorithm. It's meant to be included in a challenge in [Byte Heist](https://byte-heist.com).
 
 Test cases taken from the [Boost Graph Library](https://github.com/boostorg/graph/tree/develop),
-licenced under the boost licence.
+licenced under the [boost licence](https://www.boost.org/doc/libs/1_31_0/LICENSE_1_0.txt).
 
 ## Explanation of the Left-Right Graph Planarity Algorithm
 
@@ -108,7 +108,7 @@ function group loops(graph)
     for each branch B in the graph:
         let e be the edges emerging from B (both back and tree).
         for each pair of edges e0 and e1 in e:
-            let w be all the back edges reachable from e0
+            let w be all the back edges reachable from e0 that end closer to the origin
 
             let group_one and group_two be sets;
             for each back edge q in w:
@@ -117,7 +117,7 @@ function group loops(graph)
                 fi
             rof
 
-            let w be all the back edges reachable from e1
+            let w be all the back edges reachable from e1 that end closer to origin
             let group_two and group_two be sets;
             for each back edge q in w:
                 if q point > s2.low_point:
@@ -135,6 +135,15 @@ end
 
 Now you can trivially assing an arbitrary direction to a back edge, then apply the opposite or the same direction to all back edges depending on the _T-same_ or _T-opposite_ rules. If it's possible
 to do so, the graph is planar, if not, the graph is not.
+
+### Potential Bugs
+
+Just for fun, I'll share the bugs my first implementation had. Perhaps you will run into the same ones:
+
+- Only back edges that pass by a junction count for the purpose of *T-same* or *T-opposite* classification. Inituitively loops that don't include the junction don't have any effect on the junction.
+- Ensure both similarity sets T1 and T2 are reflexive. My first version ommited `graph.set_t_same(t2)` and thus various difficult to track down bugs.
+- Ensure you are parsing your graphs correctly. Some have weird cases like ommiting node 0.
+- I had some issues with ensuring edges are named consistently. Sometimes they sould be in a set already with a differnt string representation.
 
 ## How to run the code
 
